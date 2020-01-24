@@ -1,4 +1,4 @@
-project('util', 'c')
+project('libutil', 'c')
 
 # Native libs
 cc = meson.get_compiler('c')
@@ -25,7 +25,7 @@ libutil = library(
 
 # External use
 libutil_dirs = include_directories('src')
-util_dep = declare_dependency(
+libutil_dep = declare_dependency(
   link_with: libutil,
   include_directories: libutil_dirs,
   dependencies: deps
