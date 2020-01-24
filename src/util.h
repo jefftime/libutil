@@ -20,5 +20,6 @@
 #define UTIL_H
 
 void u_puts(char *s);
+void u_sprintf(char *fmt, ...);
 
 #endif

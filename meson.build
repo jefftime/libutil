@@ -3,8 +3,9 @@ project('libutil', 'c')
 # Native libs
 cc = meson.get_compiler('c')
 libc = cc.find_library('c')
+libm = cc.find_library('m', required: false)
 
-deps = [ libc ]
+deps = [ libc, libm ]
 
 # C args
 args = [
