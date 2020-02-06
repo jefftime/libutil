@@ -16,18 +16,14 @@
  * along with libutil.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include <math.h>
+#include "util.h"
 #include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
-
-void u_puts(char *s) {
-  puts(s);
-}
 
 int u_sprintf(char *str, char *fmt, ...) {
+  char *start;
   va_list args;
 
+  start = str;
   va_start(args, fmt);
   while (*fmt) {
     if (*fmt == '%') {
@@ -35,22 +31,24 @@ int u_sprintf(char *str, char *fmt, ...) {
       switch (*fmt) {
       case 'd': {
         int val;
-        unsigned int n_positions;
-        unsigned long total;
+        int n_positions, total;
 
         val = va_arg(args, int);
-        n_positions = (unsigned int) (log(val) / log(10)) + 1;
+        if (val < 0) {
+          *str++ = '-';
+          val = -val;
+        }
+        n_positions = (int) (u_log(val) / u_log(10)) + 1;
         total = 0;
-        printf("n_positions: %u\n", n_positions);
         do {
-          unsigned long n;
+          int n;
 
-          n = (unsigned long) val;
-          n /= (unsigned long) pow(10, n_positions - 1);
+          n = val;
+          n /= (int) u_pow(10, n_positions - 1);
           n -= total;
           total += n;
           total *= 10;
-          *str++ = '0' + (char) n;
+          *str++ = (char) ('0' + (char) n);
         } while (--n_positions);
         fmt++;
         break;
@@ -66,5 +64,5 @@ int u_sprintf(char *str, char *fmt, ...) {
   }
   va_end(args);
   *str++ = '\0';
-  return 0;
+  return (int) (str - start);
 }

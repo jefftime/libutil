@@ -16,10 +16,25 @@
  * along with libutil.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef UTIL_H
-#define UTIL_H
+#include "util.h"
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
 
-void u_puts(char *s);
-void u_sprintf(char *fmt, ...);
+/* The functions in util_core.c are to be supplied by the host environment */
 
-#endif
+int u_puts(char *s) {
+  return puts(s);
+}
+
+void *u_memset(void *dst, int ch, size_t count) {
+  return memset(dst, ch, count);
+}
+
+double u_log(double x) {
+  return log(x);
+}
+
+double u_pow(double x, double y) {
+  return pow(x, y);
+}
