@@ -1,28 +1,24 @@
+inclibs = util
+
 src = $(wildcard $(srcdir)/*.c)
 obj = $(addprefix $(bindir)/,$(notdir $(src:%.c=%.o)))
-cflags = -fPIC \
+cflags += -fPIC \
 	-std=c90 \
 	-pedantic-errors \
 	-Wall \
 	-Wconversion \
-	$(include) \
+	$(addprefix -I,$(incdirs)) \
 	--no-standard-libraries
-include = -I./include \
-	-I$(libdir)/sized_types/include
-srcdir = ./src
-libdir ?= ./lib
-bindir ?= ./bin
-
-green = '\033[1;32m'
-nocolor = '\033[0m'
+incdirs = $(addsuffix /include,$(addprefix $(libdir)/,$(inclibs)))
+srcdir = $(realpath ./src)
+libdir ?= $(realpath ./lib)
+bindir ?= $(realpath ./bin)
 
 $(bindir)/libutil.a: $(obj)
-	@echo -e $(green)Link $(notdir $@)$(nocolor)
-	@$(AR) rcs $@ $(obj)
+	$(AR) rcs $@ $(obj)
 
 $(bindir)/%.o: $(srcdir)/%.c
-	@echo $(notdir $@)...
-	@$(CC) -c $(cflags) -o $@ $^
+	$(CC) -c $(cflags) -o $@ $^
 
 .PHONY: clean
 clean:

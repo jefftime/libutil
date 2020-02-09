@@ -16,7 +16,7 @@
  * along with libutil.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "util.h"
+#include <util.h>
 #include <stdarg.h>
 
 int u_sprintf(char *str, char *fmt, ...) {
