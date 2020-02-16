@@ -2,13 +2,7 @@ inclibs = util
 
 src = $(wildcard $(srcdir)/*.c)
 obj = $(addprefix $(bindir)/,$(notdir $(src:%.c=%.o)))
-cflags += -fPIC \
-	-std=c90 \
-	-pedantic-errors \
-	-Wall \
-	-Wconversion \
-	$(addprefix -I,$(incdirs)) \
-	--no-standard-libraries
+cflags += -fPIC $(addprefix -I,$(incdirs))
 incdirs = $(addsuffix /include,$(addprefix $(libdir)/,$(inclibs)))
 srcdir = $(realpath ./src)
 libdir ?= $(realpath ./lib)
