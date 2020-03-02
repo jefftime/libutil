@@ -17,14 +17,39 @@
  */
 
 #include "util.h"
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
+#include <stdarg.h>             /* va_list, va_start, va_end */
+#include <stddef.h>             /* size_t */
+
+/* stdio */
+int puts(const char *s);
+int vprintf(const char *format, va_list args);
+int fgetc(FILE *stream);
+
+/* string */
+void *memset(void *s, int c, size_t n);
+
+/* math */
+double log(double x);
+double pow(double x, double y);
 
 /* The functions in util_core.c are to be supplied by the host environment */
 
 int u_puts(char *s) {
   return puts(s);
+}
+
+int u_printf(const char *format, ...) {
+  int result;
+  va_list args;
+
+  va_start(args, format);
+  result = vprintf(format, args);
+  va_end(args);
+  return result;
+}
+
+int u_fgetc(FILE *stream) {
+  return fgetc(stream);
 }
 
 void *u_memset(void *dst, int ch, size_t count) {

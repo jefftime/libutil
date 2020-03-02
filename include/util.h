@@ -21,6 +21,15 @@
 
 #include <stddef.h>             /* size_t */
 
+struct FILE;
+typedef struct FILE FILE;
+extern FILE *stdin;
+extern FILE *stdout;
+extern FILE *stderr;
+#define stdin stdin
+#define stdout stdout
+#define stderr stderr
+
 /* The functions in util_core.c are to be supplied by the host environment. On
  * most platforms this will be libc, but in cases such as wasm, the functions
  * will be imported from JavaScript
@@ -29,6 +38,8 @@
 /* **************************************** */
 /* util_core.c */
 int u_puts(char *s);
+int u_printf(const char *format, ...);
+int u_fgetc(FILE *f);
 void *u_memset(void *dst, int ch, size_t count);
 double u_log(double x);
 double u_pow(double x, double y);
